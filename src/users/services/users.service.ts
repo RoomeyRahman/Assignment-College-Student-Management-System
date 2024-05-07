@@ -11,7 +11,7 @@ import {
     UserDto,
 } from '../dto';
 import { IUser } from '../interfaces';
-import { SCHEMA } from 'src/common/mock';
+import { SCHEMA } from '../../common/mock';
 
 /**
  * User Service
