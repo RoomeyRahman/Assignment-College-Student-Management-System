@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import 'dotenv/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { StudentsModule } from './students/students.module';
 
 const DB_CONNECTION = process.env.DB_CONNECTION;
 
@@ -19,7 +20,8 @@ const DB_CONNECTION = process.env.DB_CONNECTION;
       autoIndex: true,
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    StudentsModule
   ],
   controllers: [AppController],
   providers: [
