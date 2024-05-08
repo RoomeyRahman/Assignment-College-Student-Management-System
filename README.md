@@ -58,6 +58,252 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## API Documentation
+
+### User Create
+
+- **Method:** POST
+- **Route:** /users
+- **Authentication:** false
+- **Body:**
+
+  ```json
+  {
+    "email": "roomey@gmail.com",
+    "password": "12345"
+  }
+  ```
+
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "_id": "663bc7bb47a8bb4e7dc363d6",
+    "email": "roomey@gmail.com",
+    "isActive": true,
+    "isVerified": false,
+    "isAdmin": false,
+    "isSuperAdmin": false,
+    "cTime": 1715193584252
+  },
+  "message": "",
+  "pagination": null
+}
+```
+
+### User Login
+
+- **Method:** POST
+- **Route:** /login
+- **Authentication:** false
+- **Body:**
+
+  ```json
+  {
+    "email": "roomey@gmail.com",
+    "password": "12345"
+  }
+  ```
+
+- **Response:**
+
+```json
+{
+  "_id": "663bc7bb47a8bb4e7dc363d6",
+  "email": "roomey@gmail.com",
+  "isAdmin": false,
+  "isSuperAdmin": false
+}
+```
+
+- **Header:**
+
+```json
+{
+  "X-ACCESS-KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjNiYzdiYjQ3YThiYjRlN2RjMzYzZDYiLCJlbWFpbCI6InJvb21leUBnbWFpbC5jb20iLCJpc0FkbWluIjpmYWxzZSwiaXNTdXBlckFkbWluIjpmYWxzZSwiaWF0IjoxNzE1MTkzODM0LCJleHAiOjIzMTk5OTM4MzR9.KsnV0lBARbf-KykYCnFeqUNh2kp7_mlxT6uwRVyVXmk",
+  "X-ACCESS-KEY-EXPIRES": "604800000"
+}
+```
+
+### Student Create
+
+- **Method:** POST
+- **Route:** /students
+- **Authentication:** true [provide bearer token]
+- **Body:**
+
+  ```json
+  {
+    "studentId": "1",
+    "name": "Ataur Rahman",
+    "age": 24,
+    "gender": "Male",
+    "course": "CSE",
+    "hobby": "gardening",
+    "admissionDate": 1389526564
+  }
+  ```
+
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "isActive": true,
+    "isDeleted": false,
+    "cTime": 1715193962374,
+    "cBy": "663a8659ed8d34691a32a261",
+    "studentId": "5",
+    "name": "Ataur Rahman",
+    "age": 24,
+    "gender": "Male",
+    "course": "CSE",
+    "hobby": "gardening",
+    "admissionDate": 1389526564,
+    "_id": "663bc86a47a8bb4e7dc363da",
+    "__v": 0,
+    "id": "663bc86a47a8bb4e7dc363da"
+  },
+  "message": "",
+  "pagination": null
+}
+```
+
+### Student Update
+
+- **Method:** PATCH
+- **Route:** /students/<id>
+- **Authentication:** true [provide bearer token]
+- **Body:**
+
+  ```json
+  {
+    "name": "Md Ataur Rahman"
+  }
+  ```
+
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "isActive": true,
+    "isDeleted": false,
+    "cTime": 1715193962374,
+    "cBy": "663a8659ed8d34691a32a261",
+    "studentId": "5",
+    "name": "Md Ataur Rahman",
+    "age": 24,
+    "gender": "Male",
+    "course": "CSE",
+    "hobby": "gardening",
+    "admissionDate": 1389526564,
+    "_id": "663bc86a47a8bb4e7dc363da",
+    "__v": 0,
+    "id": "663bc86a47a8bb4e7dc363da"
+  },
+  "message": "",
+  "pagination": null
+}
+```
+
+### Student FindAll
+
+- **Method:** GET
+- **Route:** /students
+- **Authentication:** true [provide bearer token]
+- **Query:**
+
+  ```json
+  {
+    "pagination": true
+  }
+  ```
+
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": [
+    {
+      "_id": "663bc86a47a8bb4e7dc363da",
+      "isActive": true,
+      "isDeleted": false,
+      "cTime": 1715193962374,
+      "cBy": "663a8659ed8d34691a32a261",
+      "studentId": "5",
+      "name": "Ataur Rahman",
+      "age": 24,
+      "gender": "Male",
+      "course": "CSE",
+      "hobby": "gardening",
+      "admissionDate": 1389526564,
+      "__v": 0,
+      "id": "663bc86a47a8bb4e7dc363da"
+    }
+  ],
+  "message": "",
+  "pagination": {
+    "total": 1,
+    "limit": 1,
+    "skip": 0
+  }
+}
+```
+
+### Student FindOne
+
+- **Method:** GET
+- **Route:** /students/<id>
+- **Authentication:** true [provide bearer token]
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "isActive": true,
+    "isDeleted": false,
+    "cTime": 1715193962374,
+    "cBy": "663a8659ed8d34691a32a261",
+    "studentId": "5",
+    "name": "Md Ataur Rahman",
+    "age": 24,
+    "gender": "Male",
+    "course": "CSE",
+    "hobby": "gardening",
+    "admissionDate": 1389526564,
+    "_id": "663bc86a47a8bb4e7dc363da",
+    "__v": 0,
+    "id": "663bc86a47a8bb4e7dc363da"
+  },
+  "message": "",
+  "pagination": null
+}
+```
+
+### Student Delete
+
+- **Method:** DELETE
+- **Route:** /students/<>
+- **Authentication:** true [provide bearer token]
+
+- **Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": "successfully deleted",
+  "message": "",
+  "pagination": null
+}
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
