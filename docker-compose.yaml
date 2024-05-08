@@ -1,0 +1,50 @@
+version: "3.8"
+services:  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      student_management:
+        ipv4_address: 192.168.2.5
+
+  backend:
+    user: root
+    container_name: student_management_backend
+    image: student_management_backend_image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 4000:4000
+    depends_on:
+      - redis
+    environment:
+      - PORT=4000
+      - MODE=DEV
+      - NODE_ENV=development
+      - RUN_MIGRATIONS=true
+      - SECRET_KEY_JWT=eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiU3VwZXIgQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IiQyYSQwOCQ3ZWhzMWtRWXU1YkZMRUtSUWw2Y0VlUURHMXVIcjZMWkVycWpPNFNMNGxaMmpSVDNpNC5kUyIsImV4cCI6MTYxNDcwOTQ5OCwiaWF0IjoxNjE0NzA5NDk4fQ.NBPiLlPHByxSpXZzGblYJ_rWGjvyGtRDUPViR34kFmI
+      - FE_HOST=http://localhost:3000
+      - DB_CONNECTION=
+      - REDIS_HOST=192.168.2.5  # Update this with the IP of your Redis container
+      - REDIS_PORT=6379           # Default Redis port
+    networks:
+      student_management:
+        ipv4_address: 192.168.2.6
+
+volumes:
+  redis_data:
+
+networks:
+  student_management:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.2.0/24
+          gateway: 192.168.2.1
