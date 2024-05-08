@@ -3,7 +3,12 @@ import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { StudentsService } from '../services';
 import { QUEUES, SCHEMA } from '../../common/mock';
-import { CreateStudentDto, SearchStudentDto, StudentDto } from '../dto';
+import {
+  CreateStudentDto,
+  SearchStudentDto,
+  StudentDto,
+  UpdateStudentDto,
+} from '../dto';
 import { IStudent, IStudents } from '../interfaces';
 import { Queue } from 'bull';
 import { getQueueToken } from '@nestjs/bull';
@@ -238,6 +243,66 @@ describe('StudentsService', () => {
         });
         expect(model.create).not.toHaveBeenCalled();
         expect(redisClient.incr).not.toHaveBeenCalled();
+      }
+    });
+  });
+
+  describe('update', () => {
+    it('should update a student and add to the queue', async () => {
+      const data = new UpdateStudentDto({
+        name: 'Md Ataur Rahman',
+      });
+      const record = {
+        ...mockStudent,
+        set: jest.fn().mockReturnThis(),
+        save: jest.fn().mockResolvedValueOnce({
+          ...data,
+          uBy: mockUser._id,
+        }),
+      };
+      const expectedUpdatedRecord = {
+        ...data,
+        uBy: mockUser._id,
+      };
+
+      (model.findOne as jest.Mock).mockResolvedValueOnce(record);
+
+      const result = await service.update(mockStudent._id, data, mockUser);
+
+      expect(result).toEqual(expectedUpdatedRecord);
+      expect(model.findOne).toHaveBeenCalledWith({
+        _id: mockStudent._id,
+        isDeleted: false,
+      });
+      expect(record.save).toHaveBeenCalled();
+      expect(queue.add).toHaveBeenCalledWith('assign-hobby', {
+        student: expectedUpdatedRecord,
+      });
+    });
+
+    it('should throw NotFoundException if record not found', async () => {
+      const id = '123';
+      const data = new UpdateStudentDto({
+        name: 'Md Ataur Rahman',
+      });
+
+      (model.findOne as jest.Mock).mockResolvedValueOnce(null);
+
+      try {
+        await service.update(id, data, mockUser);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.getStatus()).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.getResponse()).toEqual({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'Could not find record.',
+          error: 'Not Found',
+        });
+        expect(model.findOne).toHaveBeenCalledWith({
+          _id: id,
+          isDeleted: false,
+        });
+        expect(queue.add).not.toHaveBeenCalled();
       }
     });
   });
