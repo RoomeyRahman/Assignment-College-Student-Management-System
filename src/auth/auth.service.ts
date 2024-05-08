@@ -36,10 +36,7 @@ export class AuthService {
     try {
       const email = loginDto.email.toLowerCase();
 
-      return await this.userModel
-        .findOne({ email: email })
-        .populate('profile')
-        .exec();
+      return await this.userModel.findOne({ email: email }).exec();
     } catch (error) {
       return;
     }
@@ -65,12 +62,6 @@ export class AuthService {
 
       if (!passwordIsValid == true) {
         throw new UnauthorizedException('Unauthorized access: Wrong password');
-      }
-
-      if (!userData.isVerified) {
-        throw new UnauthorizedException(
-          'Unauthorized access: User verification is necessary',
-        );
       }
 
       if (userData.isDeleted) {

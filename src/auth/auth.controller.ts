@@ -33,8 +33,8 @@ export class AuthController {
     return res
       .status(authRes.status)
       .set({
-        'X-CARHIVE-KEY': authRes.token,
-        'X-CARHIVE-KEY-EXPIRES': authRes.expiresIn,
+        'X-ACCESS-KEY': authRes.token,
+        'X-ACCESS-KEY-EXPIRES': authRes.expiresIn,
       })
       .json(authRes.user);
   }

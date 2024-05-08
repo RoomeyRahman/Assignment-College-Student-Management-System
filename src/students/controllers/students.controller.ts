@@ -77,8 +77,8 @@ export class StudentsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(
-    @User() user: IUser,
     @Body() data: CreateStudentDto,
+    @User() user: IUser,
   ): Promise<IStudent> {
     try {
       return this.service.create(data, user);

@@ -34,7 +34,10 @@ export class ValidationPipe implements PipeTransform {
     }
 
     const object = plainToClass(metatype, value);
-    const errors = await validate(object, { skipMissingProperties: this.skip });
+    const errors = await validate(object, {
+      skipMissingProperties: this.skip,
+      forbidUnknownValues: false,
+    });
     if (errors.length > 0) {
       throw new HttpException(
         `Validation failed: ${this.formatErrors(errors)}`,
