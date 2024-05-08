@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -47,13 +48,19 @@ export class StudentsService {
    */
   async create(data: CreateStudentDto, user: IUser): Promise<IStudent> {
     try {
+      const student = await this.model.findOne({
+        studentId: data.studentId,
+      });
+
+      if (student) {
+        return Promise.reject(new BadRequestException('Student already exist'));
+      }
+
       const body = new StudentDto({
         ...data,
         cBy: user._id,
       });
-      const registerDoc = new this.model(body);
-
-      const savedStudent = await registerDoc.save();
+      const savedStudent = await this.model.create(body);
       this.redisClient.incr('total_students');
       return savedStudent;
     } catch (err) {
