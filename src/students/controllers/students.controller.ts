@@ -95,6 +95,7 @@ export class StudentsController {
    */
   @ApiOperation({ summary: 'Get all students' })
   @UsePipes(new ValidationPipe(true))
+  @UseGuards(JwtAuthGuard)
   @Get()
   public findAll(@Query() query: SearchStudentDto): Promise<IStudents> {
     try {
@@ -135,6 +136,7 @@ export class StudentsController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found.',
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async findOne(@Param('id') id: string): Promise<IStudent> {
     try {
