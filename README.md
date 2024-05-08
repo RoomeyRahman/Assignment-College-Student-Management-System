@@ -50,6 +50,9 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# running in docker
+$ docker-compose up -d
 ```
 
 ## Test
