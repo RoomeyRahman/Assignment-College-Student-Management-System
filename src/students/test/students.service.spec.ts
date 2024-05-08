@@ -156,4 +156,32 @@ describe('StudentsService', () => {
       expect(model.countDocuments).not.toHaveBeenCalled();
     });
   });
+
+  describe('findOne', () => {
+    it('should find a student by ID', async () => {
+      (model.findOne as jest.Mock).mockResolvedValueOnce(mockStudent);
+      const result = await service.findOne(mockStudent._id);
+
+      expect(result).toEqual(mockStudent);
+      expect(model.findOne).toHaveBeenCalledWith({ _id: mockStudent._id });
+    });
+
+    it('should throw NotFoundException when student is not found', async () => {
+      const mockStudentId = '123';
+      (model.findOne as jest.Mock).mockResolvedValueOnce(null);
+
+      try {
+        await service.findOne(mockStudentId);
+      } catch (error) {
+        expect(model.findOne).toHaveBeenCalledWith({ _id: mockStudentId });
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.getStatus()).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.getResponse()).toEqual({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'Could not find record.',
+          error: 'Not Found',
+        });
+      }
+    });
+  });
 });
