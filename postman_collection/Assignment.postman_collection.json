@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "e79db653-acc7-45ee-935b-3541125ebb57",
+		"name": "Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8570278"
+	},
+	"item": [
+		{
+			"name": "user create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"roomey@gmail.com\",\r\n\t\"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2312/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"roomey@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2312/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjNhODY1OWVkOGQzNDY5MWEzMmEyNjEiLCJlbWFpbCI6InJvb21leUBnbWFpbC5jb20iLCJpc0FkbWluIjpmYWxzZSwiaXNTdXBlckFkbWluIjpmYWxzZSwiaWF0IjoxNzE1MTY4MDc2LCJleHAiOjIzMTk5NjgwNzZ9.4MDMCUeDFwNMcDjwugugdtwYDIyS8P5jNxJc-umCjtQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Md. Ataur Rahman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2312/students/663bc86a47a8bb4e7dc363da",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"students",
+						"663bc86a47a8bb4e7dc363da"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2312/students?pagination=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"students"
+					],
+					"query": [
+						{
+							"key": "pagination",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get student by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2312/students/663bc86a47a8bb4e7dc363da",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"students",
+						"663bc86a47a8bb4e7dc363da"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update student",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Md Ataur Rahman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2312/students/663bc86a47a8bb4e7dc363da",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"students",
+						"663bc86a47a8bb4e7dc363da"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete student",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjNhODY1OWVkOGQzNDY5MWEzMmEyNjEiLCJlbWFpbCI6InJvb21leUBnbWFpbC5jb20iLCJpc0FkbWluIjpmYWxzZSwiaXNTdXBlckFkbWluIjpmYWxzZSwiaWF0IjoxNzE1MTY4MDc2LCJleHAiOjIzMTk5NjgwNzZ9.4MDMCUeDFwNMcDjwugugdtwYDIyS8P5jNxJc-umCjtQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2312/students/663bc86a47a8bb4e7dc363da",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2312",
+					"path": [
+						"students",
+						"663bc86a47a8bb4e7dc363da"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
