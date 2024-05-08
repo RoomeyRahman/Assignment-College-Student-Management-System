@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server } from 'socket.io';
 import { IUser } from '../../users/interfaces';
 import { SCHEMA } from '../../common/mock';
 import { createSearchQuery } from '../../common/utils/helper';
@@ -17,8 +19,10 @@ import {
   UpdateStudentDto,
 } from '../dto';
 
+@WebSocketGateway({ cors: true })
 @Injectable()
 export class StudentsService {
+  @WebSocketServer() server: Server;
   /**
    * Constructor
    * @param {Model<IStudent>} model
@@ -73,7 +77,11 @@ export class StudentsService {
         ...data,
         uBy: user._id,
       });
-      return await record.set(body).save();
+      const updatedRecord = await record.set(body).save();
+      if (data.hobby) {
+        this.server.to('students').emit('student-updated', updatedRecord);
+      }
+      return updatedRecord;
     } catch (err) {
       throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST, {
         cause: new Error(err),
