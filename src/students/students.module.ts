@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SCHEMA } from 'src/common/mock';
 import { StudentsService } from './services';
-import { StudentsController } from './students.controller';
+import { StudentsController } from './controllers/students.controller';
 import { StudentSchema } from './schemas';
 
 @Module({
