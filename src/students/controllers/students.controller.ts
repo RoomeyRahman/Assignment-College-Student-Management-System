@@ -186,8 +186,15 @@ export class StudentsController {
     }
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.studentsService.remove(+id);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  remove(@User() user: IUser, @Param('id') id: string) {
+    try {
+      return this.service.delete(id, user);
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST, {
+        cause: new Error(err),
+      });
+    }
+  }
 }
