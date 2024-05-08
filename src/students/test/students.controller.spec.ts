@@ -9,7 +9,6 @@ import {
   mockQuery,
 } from '../../common/mock/test.mock';
 import { SearchStudentDto } from '../dto';
-import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 
 describe('StudentsController', () => {
   let controller: StudentsController;

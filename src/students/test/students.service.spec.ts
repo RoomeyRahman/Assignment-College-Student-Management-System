@@ -10,7 +10,6 @@ import { getQueueToken } from '@nestjs/bull';
 import * as Redis from 'redis';
 import {
   mockUser,
-  mockCreateUserDto,
   mockStudent,
   mockQuery,
   mockStudents,
