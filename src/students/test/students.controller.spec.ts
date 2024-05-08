@@ -71,4 +71,17 @@ describe('StudentsController', () => {
       expect(result).toEqual(mockStudent);
     });
   });
+
+  describe('remove', () => {
+    it('should delete a student', async () => {
+      const deleteSpy = jest
+        .spyOn(service, 'delete')
+        .mockResolvedValueOnce('successfully deleted');
+
+      const result = await controller.remove(mockUser, mockStudent._id);
+
+      expect(deleteSpy).toHaveBeenCalledWith(mockStudent._id, mockUser);
+      expect(result).toBe('successfully deleted');
+    });
+  });
 });

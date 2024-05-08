@@ -200,7 +200,6 @@ describe('StudentsService', () => {
 
   describe('deleted', () => {
     it('should delete a student and decrement total students count', async () => {
-      // Mock the student record to be deleted
       const mockStudentId = 'mock-student-id';
       const mockStudentRecord = {
         ...mockStudent,
