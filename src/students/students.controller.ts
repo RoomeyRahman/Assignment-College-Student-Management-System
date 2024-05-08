@@ -15,28 +15,28 @@ import { UpdateStudentDto } from './dto/update.dto';
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
-  @Post()
-  create(@Body() createStudentDto: CreateStudentDto) {
-    return this.studentsService.create(createStudentDto);
-  }
+  // @Post()
+  // create(@Body() createStudentDto: CreateStudentDto) {
+  //   return this.studentsService.create(createStudentDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.studentsService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.studentsService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.studentsService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  //   return this.studentsService.update(+id, updateStudentDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.studentsService.remove(+id);
+  // }
 }
