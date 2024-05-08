@@ -1,7 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
-import * as Redis from 'redis';
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { QUEUES } from '../../common/mock';
@@ -11,11 +10,8 @@ import { QUEUES } from '../../common/mock';
 export class HobbyQueueProcessor {
   @WebSocketServer() server: Server;
   private readonly logger = new Logger(HobbyQueueProcessor.name);
-  private redisClient: Redis.RedisClient;
 
-  constructor() {
-    this.redisClient = Redis.createClient();
-  }
+  constructor() {}
 
   @Process('assign-hobby')
   async assignHobby(job: Job<any>) {
