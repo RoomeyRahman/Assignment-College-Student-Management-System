@@ -26,6 +26,13 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## env setup
+
+- Create a .env file in the root directory.
+- Copy everything from .env.sample and paste it in the .env file.
+- Update the environment variable according to the local machine setup.
+- Update the `DB_CONNECTION` variable in the env according to your local mongodb instance
+
 ## Installation
 
 ```bash
