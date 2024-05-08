@@ -47,13 +47,6 @@ export const mockCreateStudentDto = new CreateStudentDto({
   admissionDate: 1389526564,
 });
 
-export const mockQuery = {
-  pagination: true,
-  limit: 10,
-  skip: 0,
-  sort: '{"name": "asc"}',
-};
-
 export const mockStudents = [
   { ...mockStudent },
   {
@@ -61,3 +54,10 @@ export const mockStudents = [
     _id: '663b66ebf6edf59ac6422638',
   },
 ];
+
+export const mockQuery = {
+  pagination: true,
+  limit: 10,
+  skip: 0,
+  sort: '{"name": "asc"}',
+};

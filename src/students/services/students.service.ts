@@ -131,7 +131,7 @@ export class StudentsService {
       if (query.pagination) {
         result.pagination = {
           total: await this.model.countDocuments(searchQuery),
-          limit,
+          limit: result.data.length ?? limit,
           skip,
         };
       }

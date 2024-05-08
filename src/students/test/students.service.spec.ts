@@ -4,7 +4,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { StudentsService } from '../services';
 import { QUEUES, SCHEMA } from '../../common/mock';
 import { CreateStudentDto, SearchStudentDto, StudentDto } from '../dto';
-import { IStudent } from '../interfaces';
+import { IStudent, IStudents } from '../interfaces';
 import { Queue } from 'bull';
 import { getQueueToken } from '@nestjs/bull';
 import * as Redis from 'redis';
@@ -95,6 +95,65 @@ describe('StudentsService', () => {
         expect(model.create).not.toHaveBeenCalled();
         expect(redisClient.incr).not.toHaveBeenCalled();
       }
+    });
+  });
+
+  describe('findAll', () => {
+    it('should find all students', async () => {
+      const mockResult = {
+        data: mockStudents,
+      };
+
+      (model.find as jest.Mock).mockReturnValueOnce({
+        limit: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        sort: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValueOnce(mockResult.data),
+      });
+
+      (model.countDocuments as jest.Mock).mockResolvedValueOnce(
+        mockResult.data.length,
+      );
+
+      const result: IStudents = await service.findAll(
+        mockQuery as SearchStudentDto,
+      );
+
+      expect(result.data).toEqual(mockResult.data);
+      expect(result.pagination).toEqual({
+        total: mockResult.data.length,
+        limit: mockResult.data.length,
+        skip: 0,
+      });
+      expect(model.find).toHaveBeenCalled();
+      expect(model.countDocuments).toHaveBeenCalled();
+    });
+
+    it('should find all students without pagination', async () => {
+      const mockResult = {
+        data: mockStudents,
+      };
+
+      (model.find as jest.Mock).mockReturnValueOnce({
+        limit: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        sort: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValueOnce(mockResult.data),
+      });
+
+      (model.countDocuments as jest.Mock).mockResolvedValueOnce(
+        mockResult.data.length,
+      );
+
+      mockQuery.pagination = false;
+      const result: IStudents = await service.findAll(
+        mockQuery as SearchStudentDto,
+      );
+
+      expect(result.data).toEqual(mockResult.data);
+      expect(result.pagination).toEqual(undefined);
+      expect(model.find).toHaveBeenCalled();
+      expect(model.countDocuments).not.toHaveBeenCalled();
     });
   });
 });
