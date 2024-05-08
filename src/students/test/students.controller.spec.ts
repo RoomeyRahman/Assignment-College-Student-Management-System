@@ -8,7 +8,7 @@ import {
   mockStudents,
   mockQuery,
 } from '../../common/mock/test.mock';
-import { SearchStudentDto } from '../dto';
+import { SearchStudentDto, UpdateStudentDto } from '../dto';
 
 describe('StudentsController', () => {
   let controller: StudentsController;
@@ -68,6 +68,23 @@ describe('StudentsController', () => {
       const result = await controller.findOne(mockStudent._id);
       expect(findOneSpy).toHaveBeenCalledWith(mockStudent._id);
       expect(result).toEqual(mockStudent);
+    });
+  });
+
+  describe('update', () => {
+    it('should call service update method with correct parameters', async () => {
+      const data = new UpdateStudentDto({
+        name: 'Md Ataur Rahman',
+      });
+
+      const updateSpy = jest
+        .spyOn(service, 'update')
+        .mockResolvedValueOnce(data);
+
+      const result = await controller.update(mockUser, mockStudent._id, data);
+
+      expect(result).toEqual(data);
+      expect(updateSpy).toHaveBeenCalledWith(mockStudent._id, data, mockUser);
     });
   });
 
