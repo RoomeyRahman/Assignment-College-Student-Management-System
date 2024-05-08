@@ -95,8 +95,8 @@ export class StudentsService {
         uBy: user._id,
       });
       const updatedRecord = await record.set(body).save();
-      if (data.hobby) {
-        this.server.to('students').emit('student-updated', updatedRecord);
+      if (updatedRecord) {
+        this.queue.add('assign-hobby', { student: updatedRecord });
       }
       return updatedRecord;
     } catch (err) {

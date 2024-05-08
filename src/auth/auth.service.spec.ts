@@ -31,6 +31,7 @@ describe('AuthService', () => {
 
     service = module.get<AuthService>(AuthService);
     model = module.get<Record<string, jest.Mock>>(getModelToken(SCHEMA.USER));
+    jwtService = module.get<JwtService>(JwtService);
   });
 
   it('should be defined', () => {
