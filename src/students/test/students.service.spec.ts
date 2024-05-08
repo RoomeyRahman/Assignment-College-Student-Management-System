@@ -184,4 +184,63 @@ describe('StudentsService', () => {
       }
     });
   });
+
+  describe('count', () => {
+    it('should return the count of students', async () => {
+      const expectedCount = 2;
+      (model.countDocuments as jest.Mock).mockResolvedValueOnce(expectedCount);
+      const result = await service.count({} as SearchStudentDto);
+      expect(result).toEqual(expectedCount);
+      expect(model.countDocuments).toHaveBeenCalledWith({
+        isActive: true,
+        isDeleted: false,
+      });
+    });
+  });
+
+  describe('deleted', () => {
+    it('should delete a student and decrement total students count', async () => {
+      // Mock the student record to be deleted
+      const mockStudentId = 'mock-student-id';
+      const mockStudentRecord = {
+        ...mockStudent,
+        set: jest.fn().mockReturnThis(),
+        save: jest.fn().mockResolvedValueOnce({}),
+      };
+      (model.findOne as jest.Mock).mockResolvedValueOnce(mockStudentRecord);
+
+      const result = await service.delete(mockStudentId, mockUser);
+      expect(result).toBe('successfully deleted');
+
+      expect(model.findOne).toHaveBeenCalledWith({
+        _id: mockStudentId,
+        isDeleted: false,
+      });
+
+      expect(mockStudentRecord.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isDeleted: true,
+          uBy: mockUser._id,
+        }),
+      );
+      expect(mockStudentRecord.save).toHaveBeenCalled();
+    });
+
+    it('should throw an error if the student to delete is not found', async () => {
+      (model.findOne as jest.Mock).mockResolvedValueOnce(null);
+      try {
+        await service.delete('non-existent-id', { _id: 'mock-user-id' });
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.getStatus()).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.getResponse()).toEqual({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'Could not find record.',
+          error: 'Not Found',
+        });
+        expect(model.create).not.toHaveBeenCalled();
+        expect(redisClient.incr).not.toHaveBeenCalled();
+      }
+    });
+  });
 });

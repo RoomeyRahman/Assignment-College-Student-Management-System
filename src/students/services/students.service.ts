@@ -183,7 +183,7 @@ export class StudentsService {
    * @param {string} id
    * @returns {Promise<IStudent>}
    */
-  async delete(id: string, user: IUser): Promise<void> {
+  async delete(id: string, user: IUser): Promise<string> {
     try {
       const record = await this.model.findOne({
         _id: id,
@@ -196,10 +196,10 @@ export class StudentsService {
         isDeleted: true,
         uBy: user._id,
       });
-      const deletedStudent = await record.set(body).save();
-      if (deletedStudent) {
-        this.redisClient.decr('total_students');
-      }
+      await record.set(body).save();
+      this.redisClient.decr('total_students');
+
+      return 'successfully deleted';
     } catch (err) {
       throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST, {
         cause: new Error(err),
