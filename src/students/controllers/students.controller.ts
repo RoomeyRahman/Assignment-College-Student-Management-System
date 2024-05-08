@@ -136,7 +136,7 @@ export class StudentsController {
     description: 'Not found.',
   })
   @Get(':id')
-  public async getOne(@Param('id') id: string): Promise<IStudent> {
+  public async findOne(@Param('id') id: string): Promise<IStudent> {
     try {
       return await this.service.findOne(id);
     } catch (err) {

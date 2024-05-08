@@ -9,6 +9,7 @@ import {
   mockQuery,
 } from '../../common/mock/test.mock';
 import { SearchStudentDto } from '../dto';
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 
 describe('StudentsController', () => {
   let controller: StudentsController;
@@ -57,6 +58,17 @@ describe('StudentsController', () => {
       jest.spyOn(service, 'findAll').mockResolvedValue(mockResult);
       const result = await controller.findAll(mockQuery as SearchStudentDto);
       expect(service.findAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return a student details', async () => {
+      const findOneSpy = jest
+        .spyOn(service, 'findOne')
+        .mockResolvedValueOnce(mockStudent);
+      const result = await controller.findOne(mockStudent._id);
+      expect(findOneSpy).toHaveBeenCalledWith(mockStudent._id);
+      expect(result).toEqual(mockStudent);
     });
   });
 });
