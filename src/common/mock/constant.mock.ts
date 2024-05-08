@@ -16,3 +16,7 @@ export enum RoleType {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
 }
+
+export enum QUEUES {
+  REDIES_STUEDENT_QUEUE = 'REDIES_STUEDENT_QUEUE',
+}

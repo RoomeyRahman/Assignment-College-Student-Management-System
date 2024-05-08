@@ -9,7 +9,7 @@ import { Model } from 'mongoose';
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { IUser } from '../../users/interfaces';
-import { SCHEMA } from '../../common/mock';
+import { QUEUES, SCHEMA } from '../../common/mock';
 import { createSearchQuery } from '../../common/utils/helper';
 import { IStudent, IStudents } from '../interfaces';
 import {
@@ -19,6 +19,8 @@ import {
   UpdateStudentDto,
 } from '../dto';
 import * as Redis from 'redis';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @WebSocketGateway({ cors: true })
 @Injectable()
@@ -32,6 +34,7 @@ export class StudentsService {
   constructor(
     @InjectModel(SCHEMA.STUDENT)
     private readonly model: Model<IStudent>,
+    @InjectQueue(QUEUES.REDIES_STUEDENT_QUEUE) private queue: Queue,
   ) {
     this.redisClient = Redis.createClient();
   }

@@ -13,6 +13,7 @@ import { StudentsModule } from './students/students.module';
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { CacheModule } from '@nestjs/cache-manager';
+import { BullModule } from '@nestjs/bull';
 
 const DB_CONNECTION = process.env.DB_CONNECTION;
 
@@ -27,6 +28,12 @@ const DB_CONNECTION = process.env.DB_CONNECTION;
       store: redisStore,
       host: 'localhost',
       port: 6379,
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
     }),
     UsersModule,
     AuthModule,
